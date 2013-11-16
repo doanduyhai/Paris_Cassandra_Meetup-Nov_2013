@@ -1,0 +1,37 @@
+<div class="row" ng-controller="CountDownCtrl">
+    <section class="offset1">
+        <h1>Time to live and count down</h1>
+    </section>
+    <section class="offset1">
+        <h3>Parameters</h3>
+        <h5>TTL</h5>
+        <form class="form-inline">
+            <div ui-slider min="100" max="200" ng-model="countdown.ttl"/>
+            <br/>
+            <input type="text" class="input-mini" ng-model="countdown.ttl" disabled/>
+            <button type="button" class="btn btn-primary" ng-click="setTtl()">Set</button>
+            <code class="alert alert-info">
+                <strong>INSERT INTO countdown(id,value) VALUES('countdown','value') USING TTL {{countdown.ttl}}</strong>
+            </code>
+        </form>
+    </section>
+    <section class="offset1">
+        <h3>Add values</h3>
+        <form class="form-inline">
+            <button type="button" class="btn btn-primary" ng-click="getCountDown()">Get count down</button>
+            <code class="alert alert-info">
+                <strong>SELECT ttl(value) FROM countdown WHERE id='countdown'</strong>
+            </code>
+        </form>
+    </section>
+    <hr/>
+    <section class="offset1">
+        <div>
+            <ui-include src="'assets/views/templates/common.html'" fragment="'#server-reply'"/>
+        </div>
+        <h5 ng-if="success">
+            ttl(value) =
+            <span class="badge badge-info">{{httpResponse.data}}</span>
+        </h5>
+    </section>
+</div>

@@ -1,0 +1,49 @@
+<div class="row" ng-controller="TimestampCtrl">
+    <section class="offset1">
+        <h1>Timestamp Settings</h1>
+    </section>
+    <section class="offset1">
+        <h3>Parameters</h3>
+        <h5>Timestamp shift in second(s)</h5>
+
+        <form class="form-inline">
+            <div ui-slider min="0" max="20" ng-model="timestamp.shift"/>
+            <input type="text" class="input-mini" disabled value="+{{timestamp.shift}}"/>
+        </form>
+    </section>
+    <section class="offset1">
+        <h3>Set value</h3>
+        <form class="form-inline">
+            <input type="text" class="input-mini" ng-model="timestamp.value"/>
+            <button type="button" class="btn btn-primary" ng-click="insertValue()">Insert</button>
+            <code class="alert alert-info">
+                <strong>INSERT INTO time_stamp(id,value) VALUES('time_stamp','{{timestamp.value}}') USING
+                    TIMESTAMP currentTime+{{timestamp.shift}}</strong>
+            </code>
+        </form>
+    </section>
+    <hr/>
+    <section class="offset1">
+        <div>
+            <ui-include src="'assets/views/templates/common.html'" fragment="'#server-reply'"/>
+        </div>
+        <div ng-if="success">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Current Date</th>
+                    <th>Write Date</th>
+                <tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>{{httpResponse.data.value}}</td>
+                    <td>{{httpResponse.data.currentDate}}</td>
+                    <td>{{httpResponse.data.writeDate}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>

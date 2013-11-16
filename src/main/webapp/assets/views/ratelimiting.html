@@ -1,0 +1,52 @@
+<div class="row" ng-controller="RateLimitingCtrl">
+    <section class="offset1">
+        <h1>Rate limiting</h1>
+    </section>
+    <section class="offset1">
+        <h3>Parameters</h3>
+        <h5>Threshold</h5>
+        <form class="form-inline">
+            <input type="text" class="input-mini" ng-model="ratelimiting.threshold"/>
+            <button type="button" class="btn btn-primary" ng-click="setThreshold()">Set</button>
+        </form>
+        <h5>TTL</h5>
+        <form class="form-inline">
+            <div ui-slider min="0" max="20" ng-model="ratelimiting.ttl"/>
+            <input type="text" class="input-mini" ng-model="ratelimiting.ttl" disabled/>
+        </form>
+    </section>
+    <section class="offset1">
+        <h3>Add values</h3>
+        <form class="form-inline">
+            <input type="text" class="input-mini" ng-model="ratelimiting.value"/>
+            <button type="button" class="btn btn-primary" ng-click="insertValue()">Insert</button>
+            <code class="alert alert-info">
+                <strong>INSERT INTO ratelimit(id,column,value)
+                VALUES('ratelimit','{{ratelimiting.value}}','{{ratelimiting.value}}') USING TTL
+                {{ratelimiting.ttl}}</strong>
+            </code>
+        </form>
+    </section>
+    <hr/>
+    <section class="offset1">
+        <div>
+            <ui-include src="'assets/views/templates/common.html'" fragment="'#server-reply'"/>
+        </div>
+        <div ng-if="success">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Value</th>
+                    <th>Remainting TTL</th>
+                <tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="data in httpResponse.data">
+                    <td>{{data.value}}</td>
+                    <td>{{data.ttl}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
